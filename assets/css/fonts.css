@@ -1,0 +1,26 @@
+@font-face {
+    font-family: vegan;
+    src: url("../fonts/VeganStylePersonalUse-5Y58.ttf");
+}
+
+@font-face {
+    font-family: bebas;
+    src: url("../fonts/Bebas-Regular.ttf");
+}
+
+@font-face {
+    font-family: montserrat;
+    src: url("../fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+.vegan {
+    font-family: vegan;
+}
+
+.bebas {
+    font-family: bebas;
+}
+
+.montserrat {
+    font-family: montserrat;
+}

@@ -1,0 +1,24 @@
+#daftar {
+  height: 100vh;
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+#daftar .card {
+  border-radius: 5%;
+}
+
+input:not(#cookie) {
+  width: 100%;
+}
+
+/* Hide Scroll in Number Input */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
