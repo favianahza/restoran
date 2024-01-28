@@ -8,7 +8,7 @@ $fetch = fetchAll($query);
       <div class="col-12 my-3">
         <h3>DATA PELANGGAN</h3>
       </div>
-      <div class="col-12 px-3">
+      <div class="col-12 px-3 table-responsive">
         <table class="table table-hover table-bordered">
           <tr class="montserrat">
             <td><h5>NAMA PELANGGAN</h5></td>

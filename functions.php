@@ -80,9 +80,11 @@ function login($username, $password){
   if($validate && $username == "admin"){
     $_SESSION["logged_in"] = true;
     $_SESSION["privilege"] = "admin";
+    $_SESSION["username"] = $data["username"];
   } else if($validate) {
     $_SESSION["logged_in"] = true;
     $_SESSION["privilege"] = "user";
+    $_SESSION["username"] = $data["username"];
   } else {
     return "Password yang dimasukan salah!";
   }

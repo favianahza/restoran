@@ -17,7 +17,43 @@
   text-shadow: 1px 2px 5px rgba(0,0,0,.3);
 }
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+#checkout {
+  position: fixed;
+  z-index: 1001;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  display: none;
+}
+
+
+#underlay {
+  height: 100vh;
+  z-index: 999999;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  visibility: hidden;
+}
+
+
+#close_underlay {
+  height: 10%;
+}
+
+
+td {
+  vertical-align: center;
 }

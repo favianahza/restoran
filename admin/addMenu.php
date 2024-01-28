@@ -13,7 +13,7 @@ if(isset($_POST["submit"])){
 
 ?>
 <section id="main" class="container-fluid p-2">
-    <div class="row d-flex text-center">
+    <div class="row d-flex text-center container-fluid">
       <div class="col-12 my-3">
         <h3 class="mb-4">TAMBAH MENU</h3>
             <form method="POST" autocomplete="off" enctype="multipart/form-data">

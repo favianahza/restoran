@@ -12,7 +12,7 @@
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/sweetalert2.min.js"></script>
     <script src="assets/js/index.js"></script>
-    <title>Bootstrap demo</title>
+    <title>Nikmatnyoo Food | Daftar</title>
   </head>
 
   <body class="bg-light" style="overflow: hidden">
@@ -30,22 +30,22 @@ if(isset($_POST["submit"])){
   $no_telp = $_POST["no_telp"];
   $email = $_POST["email"];
   $register = register($username, $password, $nama_lengkap, $no_telp, $email);
-  $url = "http://".$_SERVER['HTTP_HOST'].'/restoran/daftar.php';
+  $url = './daftar.php';
   if(strpos($register,"telah digunakan!")){
     echo"
     <script>failed('$register', '$url')</script>
     ";
   } else {
-    $url = "http://".$_SERVER['HTTP_HOST'].'/restoran/login.php';
+    $url = './login.php';
     echo "<script>success('Berhasil Mendaftar!', '$url')</script>";
   }
 }
 ?>
     <div id="daftar" class="row g-0 d-flex bg-warning text-left justify-content-center">
-      <div class="col-5 col-lg-4 col-xl-4 align-self-center">
+      <div class="col-10 col-sm-7 col-md-6 col-lg-5 col-xl-4 align-self-center">
 
-        <div id="card" class="card shadow p-1 d-flex">
-          <div class="card-body">
+        <div id="card" class="card shadow  px-3 px-sm-5 py-2 d-flex">
+          <div class="card-body p-md-3">
             <h3 class="card-title vegan mb-3 text-center">Mantapnyoo Food</h3>
             <h3 class="card-title bebas my-2 text-center">DAFTAR</h3>
             <form method="POST" autocomplete="off">

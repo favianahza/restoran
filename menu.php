@@ -16,7 +16,7 @@ $countFood = 1;
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/index.js"></script>
-    <title>Bootstrap demo</title>
+    <title>Nikmatnyoo Food | Menu</title>
   </head>
 
   <section id="loading" class="top-0 bg-light position-sticky">
@@ -45,7 +45,7 @@ $countFood = 1;
         <?php if(!isset($_SESSION["logged_in"])) : ?>
             <h2><a class="nav-link active bebas" href="daftar.php">DAFTAR</a></h2>
         <?php else: ?>
-            <h2><a class="nav-link active bebas" href="daftar.php">ORDER</a></h2>
+            <h2><a class="nav-link active bebas" href="order.php">ORDER</a></h2>
             <h2><a class="nav-link active bebas" href="pengaturan.php">PENGATURAN</a></h2>
         <?php endif; ?>
         <?php if(!isset($_SESSION["privilege"])) : ?>
@@ -58,10 +58,8 @@ $countFood = 1;
       </div>
   </nav>  
 
-  <div class="row text-center mt-3">
-    <div class="col montserrat">
-      <h2 style="text-shadow: 1px 1px 3px grey">Makanan</h2>
-    </div>
+  <div class="row text-center mt-3 container-fluid">
+    <h2 class="montserrat" style="text-shadow: 1px 1px 3px grey">Makanan</h2>
   </div>
   <?php if(count($foods) == 0) : ?>
     <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
@@ -72,10 +70,10 @@ $countFood = 1;
         </div>
       </section>  
   <?php else: ?>  
-      <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
+      <section id="makanan" class="container-fluid text-center bg-dark px-5 px-lg-4 position-relative shadow">
         <div class="row d-flex py-3 flex-wrap justify-content-center">
         <?php foreach($foods as $food) : ?>
-          <div class="col-lg-4 p-1">
+          <div class="col-sm-6 col-md-4 col-lg-4 p-1">
             <div class="card" style="height: 100%">
               <img src="assets/img/menu/<?= htmlspecialchars($food["foto"])  ?>" alt="<?= htmlspecialchars($food["foto"]) ?>" class="img-fluid img-thumbnail card-img-top" style="height: 250px">
               <div class="card-body">
@@ -83,7 +81,12 @@ $countFood = 1;
                 <p class="card-text"><?= htmlspecialchars($food["deskripsi"]) ?></p>
               </div>
               <div class="card-footer">
-                <a href="#" class="btn btn-success"><?= rupiah($food["harga"]) ?></a>
+              <?php if(isset($_SESSION["logged_in"])) : ?>                
+                <input type="button" value="-" class="d-inline fs-5" onclick="decrement(<?= $food['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;">
+                <input class="mb-2 text-center order" min="0" id="ID_<?= $food['kode_menu']?>" value="0" style="width: 7%;" disabled aria-data="<?= $food['nama_menu'] . '_' . $food['harga'] ?>"></input>
+                <input type="button" value="+" class="d-inline fs-5" onclick="increment(<?= $food['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;"><br>
+              <?php endif; ?>
+                <button class="btn btn-success"><?= rupiah($food["harga"]) ?></button>
               </div>
             </div>
           </div>
@@ -93,13 +96,11 @@ $countFood = 1;
   <?php endif; ?>
 
 
-  <div class="row text-center mt-5">
-    <div class="col montserrat">
-      <h2 style="text-shadow: 1px 1px 3px grey">Minuman</h2>
-    </div>
+  <div class="row text-center mt-5 container-fluid">
+    <h2 class="montserrat" style="text-shadow: 1px 1px 3px grey">Minuman</h2>
   </div>
   <?php if(count($drinks) == 0) : ?>
-    <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
+    <section id="minuman" class="container-fluid text-center bg-dark g-5 position-relative shadow">
         <div class="row d-flex py-3 justify-content-center">
           <div class="col-lg-4 my-3 m-lg-0">
             <h3 class="text-white">Minuman tidak tersedia</h3>
@@ -107,10 +108,10 @@ $countFood = 1;
         </div>
       </section>  
   <?php else: ?>  
-      <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
+      <section id="minuman" class="container-fluid text-center bg-dark px-5 px-lg-4 position-relative shadow">
         <div class="row d-flex py-3 flex-wrap justify-content-center">
         <?php foreach($drinks as $drink) : ?>
-          <div class="col-lg-4 p-1">
+          <div class="col-sm-6 col-md-4 col-lg-4 p-1">
             <div class="card" style="height: 100%">
               <img src="assets/img/menu/<?= htmlspecialchars($drink["foto"])  ?>" alt="<?= htmlspecialchars($drink["foto"]) ?>" class="img-fluid img-thumbnail card-img-top" style="height: 250px">
               <div class="card-body">
@@ -118,7 +119,12 @@ $countFood = 1;
                 <p class="card-text"><?= htmlspecialchars($drink["deskripsi"]) ?></p>
               </div>
               <div class="card-footer">
-                <a href="#" class="btn btn-success"><?= rupiah($drink["harga"]) ?></a>
+              <?php if(isset($_SESSION["logged_in"])) : ?>
+                <input type="button" value="-" class="d-inline fs-5" onclick="decrement(<?= $drink['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;">
+                  <input class="mb-2 text-center order" min="0" id="ID_<?= $drink['kode_menu']?>" value="0" style="width: 7%;" disabled aria-data="<?= $drink['nama_menu'] . '_' . $drink['harga'] ?>"></input>
+                  <input type="button" value="+" class="d-inline fs-5" onclick="increment(<?= $drink['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;"><br>
+              <?php endif; ?>                
+                <button class="btn btn-success"><?= rupiah($drink["harga"]) ?></button>
               </div>              
             </div>
           </div>
@@ -128,13 +134,11 @@ $countFood = 1;
   <?php endif; ?>
 
 
-  <div class="row text-center mt-5">
-    <div class="col montserrat">
-      <h2 style="text-shadow: 1px 1px 3px grey">Dessert</h2>
-    </div>
+  <div class="row text-center mt-5 container-fluid">
+  <h2 class="montserrat" style="text-shadow: 1px 1px 3px grey">Dessert</h2>
   </div>
   <?php if(count($desserts) == 0) : ?>
-    <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
+    <section id="dessert" class="container-fluid text-center bg-dark g-5 position-relative shadow">
         <div class="row d-flex py-3 justify-content-center">
           <div class="col-lg-4 my-3 m-lg-0">
             <h3 class="text-white">Dessert tidak tersedia</h3>
@@ -142,10 +146,10 @@ $countFood = 1;
         </div>
       </section>  
   <?php else: ?>  
-      <section id="makanan" class="container-fluid text-center bg-dark g-5 position-relative shadow">
+      <section id="Desert" class="container-fluid text-center bg-dark px-5 px-lg-4 position-relative shadow">
         <div class="row d-flex py-3 flex-wrap justify-content-center">
         <?php foreach($desserts as $dessert) : ?>
-          <div class="col-lg-4 p-1">
+          <div class="col-sm-6 col-md-4 col-lg-4 p-1">
             <div class="card" style="height: 100%">
               <img src="assets/img/menu/<?= htmlspecialchars($dessert["foto"])  ?>" alt="<?= htmlspecialchars($dessert["foto"]) ?>" class="img-fluid img-thumbnail card-img-top" style="height: 250px">
               <div class="card-body">
@@ -153,7 +157,12 @@ $countFood = 1;
                 <p class="card-text"><?= htmlspecialchars($dessert["deskripsi"]) ?></p>
               </div>
               <div class="card-footer">
-                <a href="#" class="btn btn-success" disabled><?= rupiah($dessert["harga"]) ?></a>
+                <?php if(isset($_SESSION["logged_in"])) : ?>
+                  <input type="button" value="-" class="d-inline fs-5" onclick="decrement(<?= $dessert['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;">
+                  <input class="mb-2 text-center order" min="0" id="ID_<?= $dessert['kode_menu']?>" value="0" style="width: 7%;" disabled aria-data="<?= $dessert['nama_menu'] . '_' . $dessert['harga']  ?>"></input>
+                  <input type="button" value="+" class="d-inline fs-5" onclick="increment(<?= $dessert['kode_menu']?>)" style="width: 7%; background: rgba(0,0,0,0); border: none;"><br>
+                <?php endif; ?>
+                  <button class="btn btn-success"><?= rupiah($dessert["harga"]) ?></button>
               </div>
             </div>
           </div>
@@ -163,8 +172,50 @@ $countFood = 1;
   <?php endif; ?>
 
 
+  <button class="btn btn-primary" id="checkout" onclick="checkout()"><h4>PESAN</h4></button>
+
+
+  <div id="underlay" class="top-0 row g-0 d-flex text-left justify-content-center position-fixed">
+      <div class="col-9 col-sm-7 col-md-6 col-lg-4 col-xl-4 align-self-center">
+        <div class="card shadow d-flex text-center">
+          <div class="card-body px-3 px-sm-3">
+            <h4 class="card-title bebas my-2 text-center" id="pesanan">Pesanan Anda</h4>
+            <table class="table table-hover table-bordered" id="table_order">
+            </table>            
+            <form method="POST" autocomplete="off" id="order_form" action="checkout.php">
+              <input class="form-check-input" type="radio" name="tipe_makan" value="Takeaway" checked id="tipe_makan1" onclick="$('#nomor').css('display','none')">
+              <label class="form-check-label" for="tipe_makan1">
+                  Takeaway
+              </label>
+              <input class="form-check-input" type="radio" name="tipe_makan" value="Dine In" id="tipe_makan2" onclick="$('#nomor').css('display','block')">
+              <label class="form-check-label" for="tipe_makan2">
+                  Dine In
+              </label><br>
+              <div style="display: none" id="nomor">
+              <label for="nomor_meja">Nomor Meja: </label>
+              <select name="nomor_meja" id="nomor_meja">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+              </select>
+              </div>
+              <input class="btn btn-success my-2" type="submit" name="submit" id="submit" value="CHECKOUT">
+            </form>
+            <button class="btn btn-secondary" id="close_underlay" onclick="$(this).parents('div#underlay').css('visibility','hidden'); $('.dynamic').remove() ">Kembali</button>
+          </div>
+        </div>          
+      </div>
+  </div>
+
   <footer id="footer" class="container-fluid text-center bg-light my-3 position-relative">
-    <p class="montserrat">Mantapnyoo Food ©</p>
+    <p class="montserrat fw-bold">Mantapnyoo Food ©</p>
   </footer>
 
   </body>

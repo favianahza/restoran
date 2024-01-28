@@ -9,8 +9,8 @@ $num = 0;
         <h3>DATA MENU</h3>
         <a href="./?page=addMenu"><button class="btn btn-primary">Tambah Menu</button></a>
       </div>
-      <div class="col-12 px-3">
-        <table class="table table-hover table-bordered">
+      <div class="col-12 px-3 table-responsive">
+        <table class="table table-hover table-bordered align-middle">
           <tr class="montserrat">
             <td style="width: 1%"><h5>NO.</h5></td>
             <td style="width: 10%"><h5>NAMA MENU</h5></td>

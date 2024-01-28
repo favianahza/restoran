@@ -1,5 +1,9 @@
-<?php 
-session_start();
+<?php
+require('functions.php');
+$num = 0;
+$username = $_SESSION["username"];
+$query = query("SELECT * FROM transaksi WHERE username = '$username'");
+$fetch = fetchAll($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +16,7 @@ session_start();
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/index.js"></script>
-    <title>Nikmatnyoo Food | Main</title>
+    <title>Nikmatnyoo Food | Order</title>
   </head>
 
   <section id="loading" class="top-0 bg-light position-sticky">
@@ -25,7 +29,7 @@ session_start();
 
   <body class="bg-light" style="overflow: hidden">
 
-    <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
+  <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
       <div class="container-fluid px-3 py-2">
         <h1 class="vegan" id="brand">Nikmatnyoo Food</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,39 +56,54 @@ session_start();
           </div>
         </div>
       </div>
-    </nav>  
+  </nav>   
 
-    <section id="top" class="container-fluid p-0 text-center text-white position-relative z-1">
-      <div id="overlay" class="row d-flex g-0 position-absolute top-0 bottom-0 z-5" style="width: 100%">
-        <div class="col align-self-center">
-          <h1 class="bebas">Temukan masakan favorit hanya di</h1>
-          <h1 class="vegan display-2 my-4 my-md-5" >Nikmatnyoo Food</h1>
-          <h4 class="bebas">Menyediakan berbagai macam hidangan dan masakan dari berbagai tempat</h4>
-        </div>
-      </div>      
-      <div class="row g-0 z-1">
-        <div class="col">
-          <img src="assets/img/lily-banse--YHSwy6uqvk-unsplash.jpg" alt="Nikmatnyoo" class="img-fluid shadow">
-        </div>
+  <section id="main" class="container-fluid p-2">
+    <div class="row d-flex text-center g-0">
+      <div class="col-12 my-3">
+        <h3>RIWAYAT ORDER</h3>
       </div>
-    </section>
-
-    <section id="main" class="container-fluid text-center bg-light g-0 py-3 b-5">
-      <div class="row d-flex g-0">
-        <div class="col-lg-6 align-self-center p-5">
-          <h2 class="bebas">Dibuat dengan menggunakan bahan organik</h2>
-          <p class="montserrat">Hanya bahan-bahan terpilih yang akan digunakan untuk memasak hidangan kami dengan jaminan <b>100% FRESH</b> setiap hari.</p>
-        </div> 
-        <div class="col-lg-6">
-          <img src="assets/img/jacopo-maia--gOUx23DNks-unsplash.jpg" class="img-fluid rounded shadow-sm">
-        </div>
+      <div class="col-12 px-3 table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+          <tr class="montserrat">
+            <td style="width: 1%"><h5>NO.</h5></td>
+            <td style="width: 5%"><h5>TANGGAL</h5></td>
+            <td style="width: 5%"><h5>TOTAL</h5></td>
+            <td style="width: 5%"><h5>TIPE</h5></td>
+            <td style="width: 40%"><h5>MENU</h5></td>
+          </tr>
+        <?php foreach($fetch as $data) : ?>
+          <tr>
+            <td><?= $num=$num+1; ?></td>
+            <td><?= htmlspecialchars(date("D, d-m-Y H:m:s", strtotime($data["tanggal"]))) ?></td>
+            <td><?= htmlspecialchars(rupiah($data["total"])) ?></td>
+            <td><?= htmlspecialchars($data["tipe"]) ?></td>
+            <td>
+              <?php
+                $lists = json_decode($data["list_item"], true);
+                foreach($lists as $list){
+                  foreach($list as $key => $val){
+                    $nama_menu = explode('_', $key)[1];
+                    $jumlah = $val;
+                    echo "<small>$nama_menu $jumlah"."X</small><br>";
+                  }
+                }
+              ?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        </table>
+        <?php if(mysqli_affected_rows($connection) == 0) : ?>
+          <h4>TIDAK ADA</h4>
+        <?php endif; ?>
       </div>
-    </section>
-
-    <footer id="footer" class="container-fluid text-center bg-dark position-relative text-white">
-      <div class="col py-3">
-        <p class="montserrat">Mantapnyoo Food ©</p>
-      </div>
-    </footer>
+    </div>
+  </section>
+  <br>
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
+    <div class="col py-3">
+      <p class="montserrat">Mantapnyoo Food ©</p>
+    </div>
+  </footer>
   </body>
 </html>

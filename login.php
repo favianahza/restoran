@@ -12,7 +12,7 @@
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/sweetalert2.min.js"></script>
     <script src="assets/js/index.js"></script>
-    <title>Bootstrap demo</title>
+    <title>Nikmatnyoo Food | Login</title>
   </head>
 
   <body class="bg-light" style="overflow: hidden">
@@ -26,21 +26,21 @@ if(isset($_POST["submit"])){
   $username = $_POST["username"];
   $password = $_POST["password"];
   $login = login($username, $password);
-  $url = "http://".$_SERVER['HTTP_HOST'].'/restoran/login.php';
+  $url = './login.php';
   // var_dump(strpos($login, "tidak ditemukan!")); die();
   if(strpos($login, "tidak ditemukan!") || strpos($login, "salah!") ){
     echo "<script>failed('$login', '$url')</script>";
   } else {
-    echo "<script> success('Berhasil login', '$url') </script>";
+    // echo "<script> success('Berhasil login', '$url') </script>";
+    header("Location: index.php");
   }
 }
 ?>
 
 <div id="login" class="row g-0 d-flex bg-warning text-left justify-content-center">
-      <div class="col-5 col-lg-4 col-xl-4 align-self-center">
-
+      <div class="col-9 col-sm-7 col-md-6 col-lg-4 col-xl-4 align-self-center">
         <div class="card shadow p-1 d-flex">
-          <div class="card-body">
+          <div class="card-body px-3 px-sm-5">
             <h3 class="card-title vegan mb-3 text-center">Mantapnyoo Food</h3>
             <h3 class="card-title bebas my-2 text-center">LOGIN</h3>
             <form method="POST" autocomplete="off">
@@ -60,8 +60,8 @@ if(isset($_POST["submit"])){
               <a href="index.php"><input class="btn btn-secondary" type="submit" name="kembali" value="Kembali"></a>
           </div>
         </div>          
-
       </div>
-    </div>
+</div>
+
   </body>
 </html>

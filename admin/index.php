@@ -17,7 +17,7 @@ if(!isset($_SESSION) || $_SESSION["privilege"] != "admin"){
     <script src="../assets/js/jquery-3.7.1.min.js"></script>    
     <script src="../assets/js/sweetalert2.min.js"></script>
     <script src="../assets/js/index.js"></script>
-    <title>Bootstrap demo</title>
+    <title>Nikmatnyoo Food | Admin Page</title>
   </head>
   <body>
 
@@ -37,14 +37,14 @@ if(!isset($_SESSION) || $_SESSION["privilege"] != "admin"){
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-          <h3><a class="nav-link active bebas" href="../index.php">HOME</a></h3>
-          <h3><a class="nav-link active bebas" href="./?page=customers">PELANGGAN</a></h3>            
-          <h3><a class="nav-link active bebas" href="./?page=menu">MENU</a></h3>
-          <h3><a class="nav-link active bebas" href="../pem.php">PENGATURAN</a></h3>
+          <h4><a class="nav-link active bebas" href="../index.php">HOME</a></h4>
+          <h4><a class="nav-link active bebas" href="./?page=customers">LIST PELANGGAN</a></h4>            
+          <h4><a class="nav-link active bebas" href="./?page=menu">LIST MENU</a></h4>
+          <h4><a class="nav-link active bebas" href="../pem.php">PENGATURAN</a></h4>
           <?php if(!isset($_SESSION["privilege"])) : ?>
-            <h3><a class="nav-link active bebas" href="login.php">LOGIN</a></h3>
+            <h4><a class="nav-link active bebas" href="login.php">LOGIN</a></h4>
           <?php else: ?>
-            <h3><a class="nav-link active bebas" href="../logout.php">LOGOUT</a></h3>
+            <h4><a class="nav-link active bebas" href="../logout.php">LOGOUT</a></h4>
           <?php endif; ?>
           </div>
         </div>
