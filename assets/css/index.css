@@ -49,6 +49,15 @@
 }
 
 
+#rate_underlay {
+  height: 100vh;
+  z-index: 100;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  visibility: hidden;
+}
+
+
 #close_underlay {
   height: 10%;
 }
@@ -57,22 +66,35 @@
   width: 15%;
 }
 
+.pic {
+  width: 100%;
+}
+
 @media (min-width: 576px) { 
   .logo-sm {
     width: 13%;
   }
+  .pic-sm {
+    width: 60%;
+  }  
 }
 
 @media (min-width: 768px) { 
   .logo-md {
     width: 8%;
   }
+  .pic-md {
+    width: 55%;
+  }  
 }
 
 @media (min-width: 992px) { 
   .logo-lg {
     width: 7%;
     margin-right: 7px;
+  }
+  .pic-lg {
+    width: 45%;
   }
 }
 
@@ -81,12 +103,18 @@
     width: 6%;
     margin-right: 6px;
   }
+  .pic-lg {
+    width: 45%;
+  }
 }
 
 @media (min-width: 1400px) { 
   .logo-lg {
     width: 6%;
     margin-right: 6px;
+  }
+  .pic-lg {
+    width: 45%;
   }
 }
 

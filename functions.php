@@ -183,3 +183,42 @@ function editMenu($nama, $harga, $deskripsi, $foto, $tipe, $id){
 
 	return mysqli_affected_rows($connection);
 }
+
+
+function printRating($rating){
+  if($rating == 0){
+     for($i=1; $i <= 5; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 1) {
+    echo '<span class="fa fa-star-half-o"></span> ';
+    for($i=1; $i <= 4; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 1.49) {
+    echo '<span class="fa fa-star"></span> ';
+    for($i=1; $i <= 4; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 1.99 ) {
+    echo '<span class="fa fa-star"></span> ';
+    echo '<span class="fa fa-star-half-o"></span> ';
+    for($i=1; $i <= 3; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 2.49 ) {
+    for($i=1; $i <= 2; $i++) echo '<span class="fa fa-star"></span> ';
+    for($i=1; $i <= 3; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 2.99) {
+    for($i=1; $i <= 2; $i++) echo '<span class="fa fa-star"></span> ';
+    echo '<span class="fa fa-star-half-o"></span> ';
+    for($i=1; $i <= 2; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 3.49 ) {
+    for($i=1; $i <= 3; $i++) echo '<span class="fa fa-star"></span> ';
+    for($i=1; $i <= 2; $i++) echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 3.99) {
+    for($i=1; $i <= 3; $i++) echo '<span class="fa fa-star"></span> ';
+    echo '<span class="fa fa-star-half-o"></span> ';
+    echo '<span class="fa fa-star-o"></span> ';     
+  } else if($rating < 4.49) {
+    for($i=1; $i <= 4; $i++) echo '<span class="fa fa-star"></span> ';
+    echo '<span class="fa fa-star-o"></span> ';
+  } else if($rating < 4.99){
+    for($i=1; $i <= 4; $i++) echo '<span class="fa fa-star"></span> ';
+    echo '<span class="fa fa-star-half-o"></span> ';     
+  } else {
+    for($i=1; $i <= 5; $i++) echo '<span class="fa fa-star"></span> ';
+  }
+}

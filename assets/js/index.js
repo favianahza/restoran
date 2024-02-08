@@ -112,6 +112,7 @@ function decrement(id){
 
 
 function checkout(){
+  
   order = []
   postData = []
   total = 0
@@ -128,7 +129,22 @@ function checkout(){
         postData.push({[postKey]: value})
       }      
   });
-  $('#underlay').css('visibility','visible')
+  if(order.length == 0){
+      Swal.fire({
+        icon: "error",
+        title: "Gagal",
+        text: "Anda tidak memesan apapun!",
+        timer: 1500,
+        showCancelButton: false,
+        showConfirmButton: false
+    })
+    $('#checkout').fadeOut('fast')
+    return false
+  } else {
+    $('#underlay').css('visibility','visible')
+  }
+
+  
 
   order.forEach(function (item, index) {
     for (const [key, value] of Object.entries(item)) {
@@ -150,4 +166,92 @@ function checkout(){
 
 function close(event){
   $(this).parents('div#underlay').css('visibility','hidden');
+}
+
+
+
+function review(id, nama_menu, foto){ 
+    $('[id^="star"]').attr('class', 'fa fa-star-o')
+    $('#rate_underlay').css('visibility','visible')
+    $('#title').text("Beri Ulasan "+nama_menu)
+    $('#kode_menu').val(id)
+    $('#ulasan').val('')
+
+    src="assets/img/menu/"+foto
+    $('#thumbnail').attr("src", src)
+    
+    return true
+}
+
+
+function starRating(rating){
+  let i = 0
+  $('[id^="star"]').attr('class', 'fa fa-star-o')
+
+  while(i <= rating){
+    id='#star'+i
+    $(id).attr('class', 'fa fa-star')
+    i++
+  }
+  $("input.rating-value").val(rating)
+  return true
+}
+
+function submitRate(){
+  rating = $("#rating").val()
+  ulasan = $("#ulasan").val()
+  kode_menu = $("#kode_menu").val()
+
+  if(rating == 0 || ulasan == ''){
+    Swal.fire({
+        icon: "error",
+        title: "Gagal!",
+        text: "Rating Bintang dan Ulasan harus diisi !",
+        timer: 2000,
+        scrollbarPadding: false,
+        showCancelButton: false,
+        showConfirmButton: false
+    })
+    return false
+  }
+
+  $.post("rate.php", {kode_menu: kode_menu, rating: rating, ulasan: ulasan, submit: "submit"}, function(data){
+    console.log(data)
+    if(data == "UPDATED"){
+      Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: "Rating dan Ulasan berhasil diupdate !",
+          timer: 2000,
+          scrollbarPadding: false,
+          showCancelButton: false,
+          showConfirmButton: false
+      })
+      $('div#rate_underlay').css('visibility','hidden');
+    } else if (data == "CREATED") {
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "Rating dan Ulasan berhasil dibuat !",
+        timer: 2000,
+        scrollbarPadding: false,
+        showCancelButton: false,
+        showConfirmButton: false
+      })
+      $('div#rate_underlay').css('visibility','hidden');
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Gagal!",
+        timer: 2000,
+        scrollbarPadding: false,
+        showCancelButton: false,
+        showConfirmButton: false
+      })
+      $('div#rate_underlay').css('visibility','hidden');
+    }
+
+  })
+
+
 }

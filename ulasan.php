@@ -1,8 +1,17 @@
 <?php
 require('functions.php');
-if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
+
+if(!isset($_GET["id"])){
   return header("Location: index.php");
 }
+
+$id = base64_decode(base64_decode($_GET["id"]));
+
+$dataMenu = fetchAll(query("SELECT *, IFNULL((SELECT AVG(rating.rating) FROM rating WHERE rating.kode_menu = menu.kode_menu), 0) AS rating FROM menu WHERE kode_menu = '$id'"))[0];
+$fetchRating = fetchAll(query("SELECT rating.*, customer.nama FROM rating LEFT JOIN customer ON rating.username = customer.username WHERE kode_menu = '$id'"));
+
+if(count($fetchRating) == 0) return header("Location: index.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,11 +22,12 @@ if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
     <link href="assets/css/sweetalert2.min.css" rel="stylesheet">
     <link href="assets/css/fonts.css" rel="stylesheet">
     <link href="assets/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/index.js"></script>
     <script src="assets/js/sweetalert2.min.js"></script>
-    <title>Nikmatnyoo Food | Pengaturan</title>
+    <title>Nikmatnyoo Food | Ulasan</title>
   </head>
 
   <section id="loading" class="top-0 bg-light position-sticky">
@@ -62,26 +72,49 @@ if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
       </div>
   </nav>  
 
-  <section id="main" class="container-fluid p-2 position-absolute" style="height: 75%; ">
-    <div class="row d-flex text-center g-0 mt-3" style="height: 100%">
-      <div class="col-12 my-3 align-self-center">
-        <h3>GANTI PASSWORD</h3>
-        <form method="POST" autocomplete="off">
-              <p class="m-0"><label for="password">Password Saat Ini</label></p>
-              <input class="mb-3" id="password" type="password" placeholder="Masukan Password Lama" name="password" required>
-              <p class="m-0"><label for="new_password">Password Baru</label></p>
-              <input class="mb-3" id="new_password" type="password" placeholder="Masukan Password Baru" name="new_password" required>
-              <p class="m-0"><label for="confirm_password">Konfirmasi Password Baru</label></p>
-              <input class="mb-3" id="confirm_password" type="password" placeholder="Masukan Konfirmasi Password Baru" name="confirm_password" required><br>
-              <small style="text-secondary">Pastikan Password yang dimasukan telah sesuai</small><br>
-              <br><input class="btn btn-dark my-2" type="submit" name="submit" value="GANTI">
-        </form>
-
+  <section id="main" class="container-fluid p-2 position-relative" style="height: 75%; ">
+    <div class="row d-flex text-center g-0 mt-3 mx-3" style="height: 100%">
+      <div class="col-12 my-2">
+        <h2><?= $dataMenu["nama_menu"];?></h2>
+        <a href="menu.php"><button type="button" class="btn btn-secondary mt-3">KEMBALI</button></a>
+      </div>
+      <div class="col-12 col-md-6 my-3  montserrat align-self-center">
+        <img src="assets/img/menu/<?= $dataMenu['foto']; ?>" class="img-thumbnail">
+      </div>      
+      <div class="col-12 col-md-6 my-3 px-5 montserrat align-self-center">
+        <h3>NAMA MENU</h3><p><?=  htmlspecialchars($dataMenu["nama_menu"]) ?></p>
+        <h3>DESKRIPSI</h3><p><?=  htmlspecialchars($dataMenu["deskripsi"]) ?></p>
+        <h3>HARGA</h3><p><?=  htmlspecialchars(rupiah($dataMenu["harga"])) ?></p>
+        <h3>RATING</h3>
+        <div class="star_rating" style="font-size:1em; color: gold;">
+            <?php printRating($dataMenu["rating"]); ?>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
+  <section id="review" class="container-fluid p-2 position-relative mb-5">
+    <div class="row d-flex text-center g-0 mt-3 p-0 justify-content-center flex-wrap">
+      <h3>Ulasan</h3>
+    <?php foreach($fetchRating as $rating) : ?>
+      <div class="col-10 col-sm-6 col-md-4 col-lg-3 mx-3 my-2">
+        <div class="card border-light mb-3 shadow" style="height: 100%">
+          <div class="card-header bg-secondary text-white"><?= $rating["nama"] ?></div>
+          <div class="card-body bg-light">
+              <h5 class="card-title"></h5>
+              <b>Rating <?= number_format($rating["rating"], 1, '.', '') ." / 5.0"; ?></b>
+              <div class="star_rating" style="font-size:1em; color: gold;">
+                <p><?php printRating($dataMenu["rating"]); ?></p>
+              </div>
+              <p><?= htmlspecialchars($rating["ulasan"]) ?></p>
+          </div>
+        </div>    
+      </div>
+    <?php endforeach; ?>
+    </div>
+  </section>
+
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white">
     <div class="col py-3">
       <p class="montserrat">Nikmatnyoo Food ©</p>
     </div>
@@ -89,26 +122,3 @@ if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
 
   </body>
 </html>
-<?php 
-
-if(isset($_POST["submit"])){
-  $password = $_POST["password"];
-  $new_password = $_POST["new_password"];
-  $confirm_password = $_POST["confirm_password"];
-  $username = $_SESSION["username"];
-  $real_password = fetchAll(query("SELECT password FROM login WHERE username = '$username'"))[0]["password"];
-  if(!password_verify($password, $real_password)){
-    echo "<script> failed ('Password lama yang dimasukan salah', './pengaturan.php') </script>";
-    die();
-  }
-  
-  if($new_password != $confirm_password){
-    echo "<script> failed ('Konfirmasi Password yang dimasukan tidak sama!', './pengaturan.php') </script>";
-    die();
-  }
-  $pass = password_hash($new_password, PASSWORD_DEFAULT);
-  if( mysqli_query($connection, "UPDATE login SET password = '$pass' WHERE username = '$username'") ){
-    echo "<script> success ('Password berhasil diubah!', './index.php') </script>";
-  }
-}
-?>

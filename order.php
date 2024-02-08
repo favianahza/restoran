@@ -6,7 +6,7 @@ $query = query("SELECT * FROM transaksi WHERE username = '$username'");
 $fetch = fetchAll($query);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="position: relative; min-height: 100%;">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +30,7 @@ $fetch = fetchAll($query);
     </div>
   </section>
 
-  <body class="bg-light" style="overflow: hidden">
+  <body class="bg-light">
 
   <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
       <div class="container-fluid px-3 py-2">
@@ -64,7 +64,7 @@ $fetch = fetchAll($query);
       </div>
     </nav>  
 
-  <section id="main" class="container-fluid p-2">
+  <section id="main" class="container-fluid p-2 bg-light">
     <div class="row d-flex text-center g-0">
       <div class="col-12 my-3">
         <h3>RIWAYAT ORDER</h3>
@@ -104,15 +104,15 @@ $fetch = fetchAll($query);
           </tbody>
         </table>
         <?php if(mysqli_affected_rows($connection) == 0) : ?>
-          <h4>TIDAK ADA</h4>
+          <h4></h4>
         <?php endif; ?>
       </div>
     </div>
   </section>
-  <br>
-  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white">
+  <br><br><br>
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
     <div class="col py-3">
-      <p class="montserrat">Mantapnyoo Food ©</p>
+      <p class="montserrat">Nikmatnyoo Food ©</p>
     </div>
   </footer>
   </body>

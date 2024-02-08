@@ -1,6 +1,7 @@
 <?php 
 require('functions.php');
 if(isset($_COOKIE["logged_in"])){
+  $_SESSION["logged_in"] = true;
   $_SESSION["username"] = base64_decode($_COOKIE["username"]);
   $_SESSION["privilege"] = base64_decode($_COOKIE["privilege"]);
 }
