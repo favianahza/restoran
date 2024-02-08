@@ -11,12 +11,15 @@ if(!isset($_SESSION) || $_SESSION["privilege"] != "admin"){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/sweetalert2.min.css" rel="stylesheet">
+    <link href="../assets/css/datatables.min.css" rel="stylesheet">
     <link href="../assets/css/fonts.css" rel="stylesheet">
     <link href="../assets/css/index.css" rel="stylesheet">
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/jquery-3.7.1.min.js"></script>    
     <script src="../assets/js/sweetalert2.min.js"></script>
+    <script src="../assets/js/datatables.min.js"></script>
     <script src="../assets/js/index.js"></script>
+    <script src="../assets/js/admin.js"></script>
     <title>Nikmatnyoo Food | Admin Page</title>
   </head>
   <body>
@@ -40,7 +43,8 @@ if(!isset($_SESSION) || $_SESSION["privilege"] != "admin"){
           <h4><a class="nav-link active bebas" href="../index.php">HOME</a></h4>
           <h4><a class="nav-link active bebas" href="./?page=customers">LIST PELANGGAN</a></h4>            
           <h4><a class="nav-link active bebas" href="./?page=menu">LIST MENU</a></h4>
-          <h4><a class="nav-link active bebas" href="../pem.php">PENGATURAN</a></h4>
+          <h4><a class="nav-link active bebas" href="./?page=transactions">TRANSAKSI</a></h4>
+          <h4><a class="nav-link active bebas" href="./?page=settings">PENGATURAN</a></h4>
           <?php if(!isset($_SESSION["privilege"])) : ?>
             <h4><a class="nav-link active bebas" href="login.php">LOGIN</a></h4>
           <?php else: ?>
@@ -79,6 +83,12 @@ if(!isset($_SESSION) || $_SESSION["privilege"] != "admin"){
             break;
           case "editMenu":
             include ("editMenu.php");
+            break;
+          case "transactions":
+            include ("transactions.php");
+            break;
+          case "settings":
+            include ("settings.php");
             break;
           default:
             include ("customers.php");

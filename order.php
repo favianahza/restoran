@@ -12,10 +12,13 @@ $fetch = fetchAll($query);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/css/fonts.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/datatables.min.css" rel="stylesheet">
     <link href="assets/css/index.css" rel="stylesheet">
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/datatables.min.js"></script>
     <script src="assets/js/index.js"></script>
+    <script src="assets/js/order.js"></script>
     <title>Nikmatnyoo Food | Order</title>
   </head>
 
@@ -31,7 +34,8 @@ $fetch = fetchAll($query);
 
   <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
       <div class="container-fluid px-3 py-2">
-        <h1 class="vegan" id="brand">Nikmatnyoo Food</h1>
+        <img src="assets/img/logo.png" alt="logo" class="img-fluid logo logo-sm logo-md logo-lg">
+        <h1 class="vegan mt-2" id="brand">Nikmatnyoo Food</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,8 +49,10 @@ $fetch = fetchAll($query);
         <?php if(!isset($_SESSION["logged_in"])) : ?>
             <h2><a class="nav-link active bebas" href="daftar.php">DAFTAR</a></h2>
         <?php else: ?>
+          <?php if(isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin") : ?>          
             <h2><a class="nav-link active bebas" href="order.php">ORDER</a></h2>
             <h2><a class="nav-link active bebas" href="pengaturan.php">PENGATURAN</a></h2>
+          <?php endif; ?>
         <?php endif; ?>
         <?php if(!isset($_SESSION["privilege"])) : ?>
             <h2><a class="nav-link active bebas" href="login.php">LOGIN</a></h2>
@@ -56,7 +62,7 @@ $fetch = fetchAll($query);
           </div>
         </div>
       </div>
-  </nav>   
+    </nav>  
 
   <section id="main" class="container-fluid p-2">
     <div class="row d-flex text-center g-0">
@@ -64,14 +70,17 @@ $fetch = fetchAll($query);
         <h3>RIWAYAT ORDER</h3>
       </div>
       <div class="col-12 px-3 table-responsive">
-        <table class="table table-hover table-bordered align-middle">
+        <table class="cell-border shadow display" id="order_table">
+          <thead>
           <tr class="montserrat">
-            <td style="width: 1%"><h5>NO.</h5></td>
-            <td style="width: 5%"><h5>TANGGAL</h5></td>
-            <td style="width: 5%"><h5>TOTAL</h5></td>
-            <td style="width: 5%"><h5>TIPE</h5></td>
-            <td style="width: 40%"><h5>MENU</h5></td>
+            <th style="width: 1%" class="text-center"><h5>NO.</h5></th>
+            <th style="width: 5%" class="text-center"><h5>TANGGAL</h5></th>
+            <th style="width: 5%" class="text-center"><h5>TOTAL</h5></th>
+            <th style="width: 5%" class="text-center"><h5>TIPE</h5></th>
+            <th style="width: 40%" class="text-center"><h5>MENU</h5></th>
           </tr>
+          </thead>
+          <tbody>
         <?php foreach($fetch as $data) : ?>
           <tr>
             <td><?= $num=$num+1; ?></td>
@@ -92,6 +101,7 @@ $fetch = fetchAll($query);
             </td>
           </tr>
         <?php endforeach; ?>
+          </tbody>
         </table>
         <?php if(mysqli_affected_rows($connection) == 0) : ?>
           <h4>TIDAK ADA</h4>
@@ -100,7 +110,7 @@ $fetch = fetchAll($query);
     </div>
   </section>
   <br>
-  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white">
     <div class="col py-3">
       <p class="montserrat">Mantapnyoo Food ©</p>
     </div>

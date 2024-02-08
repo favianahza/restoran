@@ -1,5 +1,8 @@
-<?php 
-session_start();
+<?php
+require('functions.php');
+if(!isset($_SESSION["privilege"])){
+  return header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,12 +10,14 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/sweetalert2.min.css" rel="stylesheet">
     <link href="assets/css/fonts.css" rel="stylesheet">
     <link href="assets/css/index.css" rel="stylesheet">
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/index.js"></script>
-    <title>Bootstrap demo</title>
+    <script src="assets/js/sweetalert2.min.js"></script>
+    <title>Nikmatnyoo Food | Pengaturan</title>
   </head>
 
   <section id="loading" class="top-0 bg-light position-sticky">
@@ -25,9 +30,10 @@ session_start();
 
   <body class="bg-light" style="overflow: hidden">
 
-    <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
+  <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
       <div class="container-fluid px-3 py-2">
-        <h1 class="vegan" id="brand">Nikmatnyoo Food</h1>
+        <img src="assets/img/logo.png" alt="logo" class="img-fluid logo logo-sm logo-md logo-lg">
+        <h1 class="vegan mt-2" id="brand">Nikmatnyoo Food</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,8 +47,10 @@ session_start();
         <?php if(!isset($_SESSION["logged_in"])) : ?>
             <h2><a class="nav-link active bebas" href="daftar.php">DAFTAR</a></h2>
         <?php else: ?>
-            <h2><a class="nav-link active bebas" href="daftar.php">ORDER</a></h2>
+          <?php if(isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin") : ?>          
+            <h2><a class="nav-link active bebas" href="order.php">ORDER</a></h2>
             <h2><a class="nav-link active bebas" href="pengaturan.php">PENGATURAN</a></h2>
+          <?php endif; ?>
         <?php endif; ?>
         <?php if(!isset($_SESSION["privilege"])) : ?>
             <h2><a class="nav-link active bebas" href="login.php">LOGIN</a></h2>
@@ -52,13 +60,55 @@ session_start();
           </div>
         </div>
       </div>
-    </nav>  
+  </nav>  
 
+  <section id="main" class="container-fluid p-2 position-absolute" style="height: 75%; ">
+    <div class="row d-flex text-center g-0 mt-3" style="height: 100%">
+      <div class="col-12 my-3 align-self-center">
+        <h3>GANTI PASSWORD</h3>
+        <form method="POST" autocomplete="off">
+              <p class="m-0"><label for="password">Password Saat Ini</label></p>
+              <input class="mb-3" id="password" type="password" placeholder="Masukan Password Lama" name="password" required>
+              <p class="m-0"><label for="new_password">Password Baru</label></p>
+              <input class="mb-3" id="new_password" type="password" placeholder="Masukan Password Baru" name="new_password" required>
+              <p class="m-0"><label for="confirm_password">Konfirmasi Password Baru</label></p>
+              <input class="mb-3" id="confirm_password" type="password" placeholder="Masukan Konfirmasi Password Baru" name="confirm_password" required><br>
+              <small style="text-secondary">Pastikan Password yang dimasukan telah sesuai</small><br>
+              <br><input class="btn btn-dark my-2" type="submit" name="submit" value="GANTI">
+        </form>
 
-    <footer id="footer" class="container-fluid text-center bg-dark position-relative text-white">
-      <div class="col py-3">
-        <p class="montserrat">Mantapnyoo Food ©</p>
       </div>
-    </footer>
+    </div>
+  </section>
+
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
+    <div class="col py-3">
+      <p class="montserrat">Mantapnyoo Food ©</p>
+    </div>
+  </footer>
+
   </body>
 </html>
+<?php 
+
+if(isset($_POST["submit"])){
+  $password = $_POST["password"];
+  $new_password = $_POST["new_password"];
+  $confirm_password = $_POST["confirm_password"];
+  $username = $_SESSION["username"];
+  $real_password = fetchAll(query("SELECT password FROM login WHERE username = '$username'"))[0]["password"];
+  if(!password_verify($password, $real_password)){
+    echo "<script> failed ('Password lama yang dimasukan salah', './pengaturan.php') </script>";
+    die();
+  }
+  
+  if($new_password != $confirm_password){
+    echo "<script> failed ('Konfirmasi Password yang dimasukan tidak sama!', './pengaturan.php') </script>";
+    die();
+  }
+  $pass = password_hash($new_password, PASSWORD_DEFAULT);
+  if( mysqli_query($connection, "UPDATE login SET password = '$pass' WHERE username = '$username'") ){
+    echo "<script> success ('Password berhasil diubah!', './index.php') </script>";
+  }
+}
+?>

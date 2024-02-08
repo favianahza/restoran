@@ -1,5 +1,9 @@
 <?php 
-session_start();
+require('functions.php');
+if(isset($_COOKIE["logged_in"])){
+  $_SESSION["username"] = base64_decode($_COOKIE["username"]);
+  $_SESSION["privilege"] = base64_decode($_COOKIE["privilege"]);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +31,8 @@ session_start();
 
     <nav id="navbar" class="navbar navbar-expand-lg bg-light shadow position-relative" style="z-index: 9999">
       <div class="container-fluid px-3 py-2">
-        <h1 class="vegan" id="brand">Nikmatnyoo Food</h1>
+        <img src="assets/img/logo.png" alt="logo" class="img-fluid logo logo-sm logo-md logo-lg">
+        <h1 class="vegan mt-2" id="brand">Nikmatnyoo Food</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,8 +46,10 @@ session_start();
         <?php if(!isset($_SESSION["logged_in"])) : ?>
             <h2><a class="nav-link active bebas" href="daftar.php">DAFTAR</a></h2>
         <?php else: ?>
+          <?php if(isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin") : ?>          
             <h2><a class="nav-link active bebas" href="order.php">ORDER</a></h2>
             <h2><a class="nav-link active bebas" href="pengaturan.php">PENGATURAN</a></h2>
+          <?php endif; ?>
         <?php endif; ?>
         <?php if(!isset($_SESSION["privilege"])) : ?>
             <h2><a class="nav-link active bebas" href="login.php">LOGIN</a></h2>
@@ -83,7 +90,7 @@ session_start();
 
     <footer id="footer" class="container-fluid text-center bg-dark position-relative text-white">
       <div class="col py-3">
-        <p class="montserrat">Mantapnyoo Food ©</p>
+        <p class="montserrat">Nikmatnyoo Food ©</p>
       </div>
     </footer>
   </body>

@@ -34,12 +34,16 @@ if(isset($_POST["submit"])){
   foreach($values as $value){
     foreach($value as $key => $val){
       // echo "$key as key and $val as value ";
+      $id = explode('_', $key )[0];
+      mysqli_query($connection, "UPDATE menu SET terjual = terjual + $val WHERE kode_menu = '$id'");
     }
   }
   // var_dump($_POST["values"]);
   $value = $_POST["values"];
   $query = "INSERT INTO transaksi VALUE('', '$username', '$value', '$total', '$tipe_makan', '$tanggal')";
+  
   if(mysqli_query($connection, $query)){
+    // $query = "SELECT COUNT(id) AS total_terjual FROM `transaksi` WHERE list_item LIKE '%Vegetable Salad%'";
     echo "<script>success('Berhasil Checkout', 'order.php')</script>";
   } else {
     echo "Gagal";

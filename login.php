@@ -32,7 +32,11 @@ if(isset($_POST["submit"])){
     echo "<script>failed('$login', '$url')</script>";
   } else {
     // echo "<script> success('Berhasil login', '$url') </script>";
-    header("Location: index.php");
+    if($_SESSION["username"] == "admin"){
+      header("Location: admin/?page=customers");
+    } else {
+      header("Location: index.php");
+    }
   }
 }
 ?>
@@ -45,11 +49,11 @@ if(isset($_POST["submit"])){
             <h3 class="card-title bebas my-2 text-center">LOGIN</h3>
             <form method="POST" autocomplete="off">
               <p class="m-0"><label for="username">Username/Email</label></p>
-              <input class="mb-3" id="username" type="text" placeholder="Masukan Username" name="username" required>
+              <input class="mb-3" id="username" type="text" placeholder="Masukan Username" name="username" required maxlength=32>
               <p class="m-0"><label for="password">Password</label></p>
-              <input class="mb-3" id="password" type="password" placeholder="Masukan Password" name="password" required>
+              <input class="mb-3" id="password" type="password" placeholder="Masukan Password" name="password" required maxlength=32>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="cookie">
+                <input class="form-check-input" type="checkbox" name="cookie" id="cookie">
                 <label class="form-check-label" for="cookie">
                   Ingat Saya
                 </label>

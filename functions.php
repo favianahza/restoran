@@ -88,6 +88,11 @@ function login($username, $password){
   } else {
     return "Password yang dimasukan salah!";
   }
+  if(isset($_POST["cookie"])) {
+    setcookie("logged_in", true, time() + (86400 * 30), "/");
+    setcookie("privilege", base64_encode($_SESSION["privilege"]), time() + (86400 * 30), "/");
+    setcookie("username", base64_encode($_SESSION["username"]), time() + (86400 * 30), "/");
+  }
   return 0;
 }
 

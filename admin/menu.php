@@ -10,15 +10,18 @@ $num = 0;
         <a href="./?page=addMenu"><button class="btn btn-primary">Tambah Menu</button></a>
       </div>
       <div class="col-12 px-3 table-responsive">
-        <table class="table table-hover table-bordered align-middle">
+        <table class="cell-border shadow display align-middle" id="data_table">
+          <thead>
           <tr class="montserrat">
-            <td style="width: 1%"><h5>NO.</h5></td>
-            <td style="width: 10%"><h5>NAMA MENU</h5></td>
-            <td style="width: 5%"><h5>HARGA</h5></td>
-            <td style="width: 25%"><h5>DESKRIPSI</h5></td>
-            <td style="width: 5%"><h5>TIPE</h5></td>
-            <td style="width: 14%"><h5>AKSI</h5></td>
+            <th style="width: 1%"><h5>NO.</h5></th>
+            <th style="width: 10%"><h5>NAMA MENU</h5></th>
+            <th style="width: 5%"><h5>HARGA</h5></th>
+            <th style="width: 25%"><h5>DESKRIPSI</h5></th>
+            <th style="width: 5%"><h5>TIPE</h5></th>
+            <th style="width: 14%"><h5>AKSI</h5></th>
           </tr>
+          </thead>
+          <tbody>
         <?php foreach($fetch as $data) : ?>
           <tr id="ID_<?=  $data["kode_menu"] ?>">
             <td><?= $num=$num+1; ?></td>
@@ -33,6 +36,7 @@ $num = 0;
             </td>
           </tr>
         <?php endforeach; ?>
+          </tbody>
         </table>
       </div>
     </div>

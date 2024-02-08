@@ -50,15 +50,15 @@ if(isset($_POST["submit"])){
             <h3 class="card-title bebas my-2 text-center">DAFTAR</h3>
             <form method="POST" autocomplete="off">
               <p class="m-0"><label for="username">Username</label></p>
-              <input class="mb-3" id="username" type="text" placeholder="Masukan Username" name="username" required>
+              <input class="mb-3" id="username" type="text" placeholder="Masukan Username" name="username" required maxlength=32>
               <p class="m-0"><label for="password">Password</label></p>
-              <input class="mb-3" id="password" type="password" placeholder="Masukan Password" name="password" required>
+              <input class="mb-3" id="password" type="password" placeholder="Masukan Password" name="password" required maxlength=32>
               <p class="m-0"><label for="nama">Nama Lengkap</label></p>
-              <input class="mb-3" id="nama" type="text" placeholder="Masukan Nama Lengkap" name="nama_lengkap" required>              
+              <input class="mb-3" id="nama" type="text" placeholder="Masukan Nama Lengkap" name="nama_lengkap" required maxlength=64>              
               <p class="m-0"><label for="no_telp">No. Telephone</label></p>
               <input class="mb-3" id="no_telp" type="number" placeholder="Masukan No. Telephone (Dengan format 08XX)" name="no_telp" required>
               <p class="m-0"><label for="email">Email</label></p>
-              <input class="mb-3" id="email" type="email" placeholder="Masukan Email" name="email" required>          
+              <input class="mb-3" id="email" type="email" placeholder="Masukan Email" name="email" required maxlength=64>          
               <input class="btn btn-dark my-2" type="submit" name="submit" value="DAFTAR">
             </form>
               <a href="login.php"><input class="btn btn-warning mb-2" type="submit" name="login" value="LOGIN"></a>

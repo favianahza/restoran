@@ -8,14 +8,17 @@ $fetch = fetchAll($query);
       <div class="col-12 my-3">
         <h3>DATA PELANGGAN</h3>
       </div>
-      <div class="col-12 px-3 table-responsive">
-        <table class="table table-hover table-bordered">
+      <div class="col-12 table-responsive">
+        <table class="cell-border shadow display" id="data_table">
+          <thead>
           <tr class="montserrat">
-            <td><h5>NAMA PELANGGAN</h5></td>
-            <td><h5>EMAIL</h5></td>
-            <td><h5>NO. TELEPHONE</h5></td>
-            <td><h5>AKSI</h5></td>
+            <th class="text-center"><h5>NAMA PELANGGAN</h5></th>
+            <th class="text-center"><h5>EMAIL</h5></th>
+            <th class="text-center"><h5>NO. TELEPHONE</h5></th>
+            <th class="text-center"><h5>AKSI</h5></th>
           </tr>
+          </thead>
+          <tbody>
         <?php foreach($fetch as $data) : ?>
           <tr id="ID_<?=  $data["username"] ?>">
             <td><?= $data["nama"] ?></td>
@@ -27,6 +30,7 @@ $fetch = fetchAll($query);
             </td>
           </tr>
         <?php endforeach; ?>
+          </tbody>
         </table>
       </div>
     </div>
