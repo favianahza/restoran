@@ -104,7 +104,7 @@ if(count($fetchRating) == 0) return header("Location: index.php");
               <h5 class="card-title"></h5>
               <b>Rating <?= number_format($rating["rating"], 1, '.', '') ." / 5.0"; ?></b>
               <div class="star_rating" style="font-size:1em; color: gold;">
-                <p><?php printRating($dataMenu["rating"]); ?></p>
+                <p><?php printRating($rating["rating"]); ?></p>
               </div>
               <p><?= htmlspecialchars($rating["ulasan"]) ?></p>
           </div>

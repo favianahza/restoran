@@ -66,7 +66,7 @@ function login($username, $password){
 
   // Login using username or password
   if(!strpos($username, '@')) {
-    $query = query("SELECT * FROM login WHERE username = '$username'");
+    $query = query("SELECT login.* , customer.no_telp FROM login LEFT JOIN customer ON login.username = customer.username WHERE login.username = '$username'");
     $data = mysqli_fetch_assoc($query);
   } else {
     $query = query("SELECT customer.*, login.password FROM customer LEFT JOIN login ON customer.username = login.username WHERE email = '$username';");
@@ -85,6 +85,8 @@ function login($username, $password){
     $_SESSION["logged_in"] = true;
     $_SESSION["privilege"] = "user";
     $_SESSION["username"] = $data["username"];
+    $_SESSION["name"] = $data["description"];
+    $_SESSION["no_telp"] = $data["no_telp"];
   } else {
     return "Password yang dimasukan salah!";
   }
@@ -92,6 +94,8 @@ function login($username, $password){
     setcookie("logged_in", true, time() + (86400 * 30), "/");
     setcookie("privilege", base64_encode($_SESSION["privilege"]), time() + (86400 * 30), "/");
     setcookie("username", base64_encode($_SESSION["username"]), time() + (86400 * 30), "/");
+    setcookie("name", base64_encode($_SESSION["name"]), time() + (86400 * 30), "/");
+    setcookie("no_telp", base64_encode($_SESSION["no_telp"]), time() + (86400 * 30), "/");
   }
   return 0;
 }

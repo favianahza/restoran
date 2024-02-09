@@ -19,7 +19,8 @@ $num = 0;
           <tr class="montserrat">
             <th style="width: 1%" class="text-center"><h5>NO.</h5></th>
             <th style="width: 15%" class="text-center"><h5>NAMA PELANGGAN</h5></th>
-            <th style="width: 60%" class="text-center"><h5>MENU</h5></th>
+            <th style="width: 20%" class="text-center"><h5>TANGGAL TRANSAKSI</h5></th>
+            <th style="width: 40%" class="text-center"><h5>MENU</h5></th>
             <th style="width: 15" class="text-center"><h5>TOTAL</h5></th>
             <th style="width: 5%" class="text-center"><h5>TIPE</h5></th>
           </tr>
@@ -29,6 +30,7 @@ $num = 0;
           <tr>
             <td><?= $num=$num+1; ?></td>
             <td><?= htmlspecialchars($data["nama"]) ?></td>
+            <td><?= htmlspecialchars($data["tanggal"]) ?></td>
             <td>
             <?php
                 $lists = json_decode($data["list_item"], true);

@@ -68,6 +68,7 @@ $fetch = fetchAll($query);
     <div class="row d-flex text-center g-0">
       <div class="col-12 my-3">
         <h3>RIWAYAT ORDER</h3>
+        <p><?= $_SESSION["name"] ?></p>
       </div>
       <div class="col-12 px-3 table-responsive">
         <table class="cell-border shadow display" id="order_table">

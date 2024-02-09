@@ -159,12 +159,15 @@ function checkout(){
   });
   $('#table_order').after(`<p class='dynamic'>Total: ${formatRupiah(total)},00</p>`)
   values = JSON.stringify(postData)
-  $('#submit').after("<input type='hidden' name='values' value='"+values+"'>")
-  $('#submit').after("<input type='hidden' name='total' value='"+total+"'>")
+  // $('#submit').before("<input type='hidden' name='values' value='"+values+"' id='values'>")
+  // $('#submit').before("<input type='hidden' name='total' value='"+total+"' id='total'>")
+  $('#values').val(values)
+  $('#total').val(total)
+  
 }
 
 
-function close(event){
+function close(event){  
   $(this).parents('div#underlay').css('visibility','hidden');
 }
 
@@ -253,5 +256,19 @@ function submitRate(){
 
   })
 
+}
 
+
+function switchForm(visibleForm, hiddenForm, title){
+  $(hiddenForm).css("display","none")
+  $(visibleForm).css("display","block")
+  $('#form_title').text(title)
+  if(visibleForm == "#name_form") {
+    $('#switchForm').text("UBAH PASSWORD")
+    $('#switchForm').attr("onclick","switchForm('#password_form', '#name_form', 'GANTI PASSWORD')")
+  } else {
+    $('#switchForm').text("UBAH DATA PRIBADI") 
+    $('#switchForm').attr("onclick","switchForm('#name_form', '#password_form', 'PERBAHARUI DATA')")
+  }
+  return true
 }

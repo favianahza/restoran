@@ -65,23 +65,36 @@ if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
   <section id="main" class="container-fluid p-2 position-absolute" style="height: 75%; ">
     <div class="row d-flex text-center g-0 mt-3" style="height: 100%">
       <div class="col-12 my-3 align-self-center">
-        <h3>GANTI PASSWORD</h3>
-        <form method="POST" autocomplete="off">
-              <p class="m-0"><label for="password">Password Saat Ini</label></p>
-              <input class="mb-3" id="password" type="password" placeholder="Masukan Password Lama" name="password" required>
-              <p class="m-0"><label for="new_password">Password Baru</label></p>
-              <input class="mb-3" id="new_password" type="password" placeholder="Masukan Password Baru" name="new_password" required>
-              <p class="m-0"><label for="confirm_password">Konfirmasi Password Baru</label></p>
-              <input class="mb-3" id="confirm_password" type="password" placeholder="Masukan Konfirmasi Password Baru" name="confirm_password" required><br>
-              <small style="text-secondary">Pastikan Password yang dimasukan telah sesuai</small><br>
-              <br><input class="btn btn-dark my-2" type="submit" name="submit" value="GANTI">
-        </form>
+        <h3 id="form_title">GANTI PASSWORD</h3>
 
+        <form method="POST" autocomplete="off" id="password_form">
+              <p class="m-0"><label for="password">Password Saat Ini</label></p>
+              <input class="mb-3" id="password" type="password" placeholder="Masukan Password Lama" name="password" required maxlength="32">
+              <p class="m-0"><label for="new_password">Password Baru</label></p>
+              <input class="mb-3" id="new_password" type="password" placeholder="Masukan Password Baru" name="new_password" required maxlength="32">
+              <p class="m-0"><label for="confirm_password">Konfirmasi Password Baru</label></p>
+              <input class="mb-3" id="confirm_password" type="password" placeholder="Masukan Konfirmasi Password Baru" name="confirm_password" required maxlength="32"><br>
+              <small style="text-secondary">Pastikan Password yang dimasukan telah sesuai</small><br>
+              <br><input class="btn btn-dark my-2" type="submit" name="submitPassword" value="GANTI PASSWORD">
+        </form>
+        
+        <form method="POST" autocomplete="off" style="display: none" id="name_form">
+              <p class="m-0"><label for="name">Nama Anda</label></p>
+              <input class="mb-3" id="name" type="text" placeholder="Masukan Password Baru" name="name" required value="<?=  $_SESSION["name"] ?>">
+              <p class="m-0"><label for="notelp">No. Telp</label></p>
+              <input class="mb-3" id="notelp" type="number" placeholder="Masukan Password Baru" name="notelp" required value="<?=  $_SESSION['no_telp'] ?>" placeholder="<?=  $_SESSION['no_telp'] ?>">  
+              <p class="m-0"><label forcurrent_="password">Password Saat Ini</label></p>
+              <input class="mb-3" id="current_password" type="password" placeholder="Masukan Password" name="current_password" required><br>
+              <small style="text-secondary">Nama yang diubah adalah nama tampilan. Bukan username</small><br>
+              <br><input class="btn btn-dark my-2" type="submit" name="submitData" value="UPDATE DATA">
+        </form>        
+        <button class="btn btn-secondary" id="switchForm" onclick="switchForm('#name_form', '#password_form', 'PERBAHARUI DATA')">UBAH DATA PRIBADI</button>
       </div>
     </div>
   </section>
 
-  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0">
+  
+  <footer id="footer" class="container-fluid text-center bg-dark position-absolute text-white bottom-0" style="z-index: 1000">
     <div class="col py-3">
       <p class="montserrat">Nikmatnyoo Food ©</p>
     </div>
@@ -90,8 +103,8 @@ if(!isset($_SESSION["privilege"]) && $_SESSION["privilege"] != "admin" ){
   </body>
 </html>
 <?php 
-
-if(isset($_POST["submit"])){
+if(isset($_POST["submitPassword"])){
+  
   $password = $_POST["password"];
   $new_password = $_POST["new_password"];
   $confirm_password = $_POST["confirm_password"];
@@ -108,7 +121,24 @@ if(isset($_POST["submit"])){
   }
   $pass = password_hash($new_password, PASSWORD_DEFAULT);
   if( mysqli_query($connection, "UPDATE login SET password = '$pass' WHERE username = '$username'") ){
-    echo "<script> success ('Password berhasil diubah!', './index.php') </script>";
+    echo "<script> success ('Password berhasil diubah!', './pengaturan.php') </script>";
   }
+} else if (isset($_POST["submitData"])) {
+  $password = $_POST["current_password"];
+  $name = $_POST["name"];
+  $notelp = $_POST["notelp"];
+  $username = $_SESSION["username"];
+  $real_password = fetchAll(query("SELECT password FROM login WHERE username = '$username'"))[0]["password"];
+  if(!password_verify($password, $real_password)){
+    echo "<script> failed ('Password yang dimasukan salah', './pengaturan.php') </script>";
+    die();
+  }
+  
+  if( query("UPDATE login SET description = '$name' WHERE username = '$username'") && query("UPDATE customer SET nama = '$name', no_telp = '$notelp' WHERE username = '$username'") ){
+    echo "<script> success ('Data berhasil diubah!', './pengaturan.php') </script>";
+    $_SESSION["name"] = $name;
+    $_SESSION["no_telp"] = $notelp;
+  }  
+
 }
 ?>

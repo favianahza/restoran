@@ -254,6 +254,8 @@ $desserts = fetchAll(query("SELECT *, IFNULL((SELECT AVG(rating.rating) FROM rat
                 <option value="10">10</option>
               </select>
               </div>
+              <input type='hidden' name='values' id='values'>
+              <input type='hidden' name='total' id='total'>
               <input class="btn btn-success my-2" type="submit" name="submit" id="submit" value="CHECKOUT">
             </form>
             <button class="btn btn-secondary" id="close_underlay" onclick="$(this).parents('div#underlay').css('visibility','hidden'); $('.dynamic').remove() ">Kembali</button>
@@ -280,7 +282,7 @@ $desserts = fetchAll(query("SELECT *, IFNULL((SELECT AVG(rating.rating) FROM rat
                 <input type="hidden" name="kode_menu"  value="0" id="kode_menu">
       				</div>
               <p class="m-0"><label for="ulasan">Ulasan atau Komentar</label></p>
-              <textarea name="ulasan" id="ulasan" cols="35" rows="4" placeholder="Masukan ulasan atau komentar disini"></textarea required><br>
+              <textarea name="ulasan" id="ulasan" cols="35" rows="4" placeholder="Masukan ulasan atau komentar disini"></textarea required maxlength="256"><br>
               <input class="btn btn-success my-2" type="submit" name="submit_rating" id="submit_rating" value="SUBMIT" onclick="event.preventDefault(); submitRate()">
             </form>
             <button class="btn btn-secondary" id="close_underlay" onclick="$(this).parents('div#rate_underlay').css('visibility','hidden');">Kembali</button>
